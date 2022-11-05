@@ -7,9 +7,16 @@ Allows for quickly importing hundreds of your artifacts from official server.</c
 1. Get your genshin data from [InventoryKamera](https://github.com/Andrewthe13th/Inventory_Kamera/)
 2. Download GenshinImporter from [releases](https://github.com/Penelopeep/GenshinImporter/releases/latest)
 3. Launch you server with plugin installed
-4. Now open `Grasscutter_Folder/Plugins/CharacterBuilder` and paste your data (with .json extension) from InventoryKamera to this folder. <br>
+4. Now open `Grasscutter_Folder/Plugins/CharacterBuilder/Data` and paste your data (with .json extension) from InventoryKamera to this folder. <br>
  I recommend renaming it to something like `data.json` so you can easily type it later.
-4. Use command `/import <file name> or !import <file name>` to get list of current available builds (don't add .json extension in command)
+4. Use command `/import <file name> or !import <file name>` to get items (don't add .json extension in command)
+
+## Settings
+In `Grasscutter_Folder/Plugins/GenshinImporter/Settings.json` you can change some settings:
+- `Artifacts/Weapons/Characters/Materials` - if you want to import artifacts/weapons/characters/materials set to true, otherwise false (currently only artifacts are supported)
+- `(Artifacts/Weapons/Characters/Materials)Limit` - limit of items to import (if you have 1000 artifacts and you set limit to 100, only 100 artifacts will be imported) (currently not working)
+- `(Artifacts/Weapons/Characters)Rarity` - list of rarities to import (if you have 5 star artifact and you set rarity to 4, it won't be imported) (currently not working)
+- `(artifacts/weapons)Equip` - plugin will try to equip artifacts/weapons on character (currently only artifacts). If anything goes wrong, disable it.
 
 ## Helping
 This plugin is built for InventoryKamera data, but if you have other data source, you can help me by sending me output from other inventory scanner like:<br>
@@ -18,6 +25,9 @@ This plugin is built for InventoryKamera data, but if you have other data source
 - Any other scanner that outputs data in (preferably) json format.
 
 ## FAQ
+1. Why would you upload plugin in this state?
+   - I think that basic functionality is enough for most people, and I want to hear/see feedback on this.
+1. Some 4* are fucked, don't ask for it.
 1. How to install plugin?
     - Add the newest jar file from [here](https://github.com/Penelopeep/GenshinImporter/releases), and put it in **GrasscutterFolder/Plugins** (make this folder if you don't have)
 2. I found a bug, where to report it?

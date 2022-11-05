@@ -1,7 +1,12 @@
 package pene.gc.importer;
 
+import com.google.gson.Gson;
 import emu.grasscutter.plugin.Plugin;
 import pene.gc.importer.commands.Import;
+import pene.gc.importer.objects.PluginConfig;
+
+import java.io.*;
+import java.util.stream.Collectors;
 
 /**
  * The Grasscutter plugin template.
@@ -10,22 +15,65 @@ import pene.gc.importer.commands.Import;
 public final class GenshinImporter extends Plugin {
     /* Turn the plugin into a singleton. */
     private static GenshinImporter instance;
-
-    /**
-     * Gets the plugin instance.
-     * @return A plugin singleton.
-     */
+    private static pene.gc.importer.objects.PluginConfig configuration;
     public static GenshinImporter getInstance() {
         return instance;
     }
-    
+
+    public void reloadConfig(){
+        try {
+            File config = new File(this.getDataFolder(), "Settings.json");
+            FileReader reader = new FileReader(config);
+            configuration = new Gson().fromJson(reader, PluginConfig.class);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * This method is called immediately after the plugin is first loaded into system memory.
      */
     @Override public void onLoad() {
         // Set the plugin instance.
         instance = this;
+
+        // Get the configuration file.
+        File config = new File(this.getDataFolder(), "Settings.json");
+
+        // Get the extra data folder.
+        File dataFolder = new File(this.getDataFolder(), "Data");
+
+        // Create the extra data folder if it doesn't exist.
+        if (!dataFolder.exists()) {
+            dataFolder.mkdirs();
+        }
+        // Load the configuration.
+        try {
+            if(!config.exists()) {
+                try (FileWriter writer = new FileWriter(config)) {
+                    InputStream configStream = this.getResource("config.json");
+                    if(configStream == null) {
+                        this.getLogger().error("Failed to save default config file.");
+                    } else {
+                        writer.write(new BufferedReader(
+                                new InputStreamReader(configStream)).lines().collect(Collectors.joining("\n"))
+                        ); writer.close();
+
+                        this.getLogger().info("Saved default config file.");
+                    }
+                }
+            }
+
+
+            // Put the configuration into an instance of the config class.
+            configuration = new Gson().fromJson(new FileReader(config), pene.gc.importer.objects.PluginConfig.class);
+        } catch (IOException exception) {
+            this.getLogger().error("Failed to create config file.", exception);
+        }
+    // Log a plugin status message.
+        this.getLogger().info("The GenshinImporter plugin has been loaded.");
     }
+
 
     /**
      * This method is called before the servers are started, or when the plugin enables.
@@ -45,4 +93,8 @@ public final class GenshinImporter extends Plugin {
         // Log a plugin status message.
         this.getLogger().info("The GenshinImporter plugin has been disabled.");
     }
+    public PluginConfig getConfiguration() {
+        return configuration;
+    }
 }
+

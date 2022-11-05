@@ -2,14 +2,16 @@ package pene.gc.importer.utils;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import emu.grasscutter.game.inventory.GameItem;
 import emu.grasscutter.game.player.Player;
+import pene.gc.importer.GenshinImporter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static pene.gc.importer.utils.Datareader.getArtifactCode;
 
-public class Converter {
+public class ArtifactConverter {
     public static void main(JsonArray artifactsCodes, Player targetPlayer) {
         for (JsonElement artifact : artifactsCodes){
             int artifactCode = getArtifactCode(artifact.getAsJsonObject().get("setKey").getAsString());
@@ -40,7 +42,7 @@ public class Converter {
                 case "enerRech_" -> mainStat = "er";
                 case "critRate_" -> mainStat = "cr";
                 case "critDMG_" -> mainStat = "cd";
-                case "heal_" -> mainStat = "hb%";
+                case "heal_" -> mainStat = "hb";
                 case "hydro_dmg_" -> mainStat = "hydro";
                 case "pyro_dmg_" -> mainStat = "pyro";
                 case "cryo_dmg_" -> mainStat = "cryo";
@@ -51,7 +53,7 @@ public class Converter {
                 case "dendro_dmg_" -> mainStat = "dendro";
             }
 
-            String subStatsString = "";
+            String subStatsString = null;
             for (JsonElement subStat : artifact.getAsJsonObject().get("substats").getAsJsonArray()) {
                 try {
                     switch (subStat.getAsJsonObject().get("key").getAsString()) {
@@ -65,7 +67,7 @@ public class Converter {
                         case "enerRech_" -> subStatsString += " er=";
                         case "critRate_" -> subStatsString += " cr=";
                         case "critDMG_" -> subStatsString += " cd=";
-                        case "heal_" -> subStatsString += " hb%=";
+                        case "heal_" -> subStatsString += " hb=";
                     }
                     String value = subStat.getAsJsonObject().get("value").getAsString();
                     subStatsString += value;
@@ -82,10 +84,13 @@ public class Converter {
             args.addAll(List.of(subStatsString.split(" ")));
             args.add(String.valueOf(level));
 
-            System.out.println(args);
             ModifiedSnooGive meSnoo = new ModifiedSnooGive();
-            meSnoo.execute(null, targetPlayer, args);
-
+            GameItem newArtifact =  meSnoo.execute(null, targetPlayer, args);
+            if(GenshinImporter.getInstance().getConfiguration().equipArtifact && !artifact.getAsJsonObject().get("location").getAsString().equals("")) {
+                String avatarName = artifact.getAsJsonObject().get("location").getAsString();
+                int avatarId = Datareader.getAvatarId(avatarName);
+                targetPlayer.getInventory().getAvatarStorage().getAvatarById(avatarId).equipItem(newArtifact, true);
+            }
             args.clear();
         }
     }

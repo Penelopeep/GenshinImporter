@@ -1,0 +1,15 @@
+{
+  "Weapons": false,
+  "WeaponLimit" : 0,
+  "WeaponRarity" : [1,2,3,4,5],
+  "equipWeapon" : false,
+  "Artifacts" : true,
+  "ArtifactLimit" : 0,
+  "ArtifactRarity" : [1,2,3,4,5],
+  "equipArtifact" : true,
+  "Characters" : false,
+  "CharacterLimit" : 0,
+  "CharacterRarity" : [4,5],
+  "Materials" : false,
+  "MaterialLimit" : 0
+}
