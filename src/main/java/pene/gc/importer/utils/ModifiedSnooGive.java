@@ -1,4 +1,4 @@
-package pene.gc.charbuild.utils;
+package pene.gc.importer.utils;
 
 import emu.grasscutter.command.CommandHandler;
 import emu.grasscutter.data.GameData;
@@ -266,8 +266,6 @@ public final class ModifiedSnooGive {
                         substatIdList.add(Integer.parseInt(statInfo.get(0).toString()));
                         remainder = String.valueOf((Float.parseFloat(remainder) - Float.parseFloat(statInfo.get(1).toString())));
                     }
-                } else {
-                    CommandHandler.sendMessage(sender,"mistyped stat value for " + statWithValue + ",this ignoring it");
                 }
             });
         } catch (NumberFormatException e) {
@@ -345,34 +343,6 @@ public final class ModifiedSnooGive {
         if (finalStatsInString.equals("")) {
             finalStatsInString = "NONE";
         }
-
-        //handles actual give command for future usage?
-        StringBuilder giveCommandArgs = new StringBuilder("/g ");
-        giveCommandArgs.append(item.getItemId()).append(" ").append(mainstatId).append(" ");
-        int tempRollCount = 1;
-        if (substatIdList.size() > 0) {
-            for (int i = 0 ; i < substatIdList.size() - 1; i++) {
-                if (substatIdList.get(i+1).equals(substatIdList.get(i))) {
-                    tempRollCount += 1;
-                } else {
-                    giveCommandArgs.append(substatIdList.get(i)).append(",").append(tempRollCount).append(" ");
-                    tempRollCount = 1;
-                }
-            }
-            // handle last element
-            if (substatIdList.get(substatIdList.size()-2).equals(substatIdList.get(substatIdList.size()-1))) {
-                tempRollCount += 1;
-                giveCommandArgs.append(substatIdList.get(substatIdList.size() - 1)).append(",").append(tempRollCount).append(" ").append(level);
-                tempRollCount = 1;
-            } else {
-                tempRollCount = 1;
-                giveCommandArgs.append(substatIdList.get(substatIdList.size() - 1)).append(",").append(tempRollCount).append(" ").append(level);
-            }
-        } else {
-            giveCommandArgs.append(level);
-        }
-
-        CommandHandler.sendMessage(sender, "The artifact has been added to your inventory!\n\nArtifact ID : " + itemId + "\nTarget Player : @" + targetPlayer.getUid() + "\n\nMainstat:\n" + finalMainstatInString + "\n\nSubstats:\n" + finalStatsInString + "\nLevel : " + level + "\n\n\nIf you wanted use normal give command, this would be your input\n" + giveCommandArgs);
         return item;
     }
 }
