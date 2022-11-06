@@ -5,7 +5,7 @@ Allows for quickly importing hundreds of your artifacts from official server.</c
 ## Usage
 
 1. Get your genshin data from [InventoryKamera](https://github.com/Andrewthe13th/Inventory_Kamera/)
-2. Download GenshinImporter from [releases](https://github.com/Penelopeep/GenshinImporter/releases/latest)
+2. Download GenshinImporter from [releases](https://github.com/Penelopeep/GenshinImporter/releases/latest) or from [actions](https://github.com/Penelopeep/GenshinImporter/actions)
 3. Launch you server with plugin installed
 4. Now open `Grasscutter_Folder/Plugins/CharacterBuilder/Data` and paste your data (with .json extension) from InventoryKamera to this folder. <br>
  I recommend renaming it to something like `data.json` so you can easily type it later.
