@@ -13,16 +13,17 @@ import static pene.gc.importer.utils.Datareader.getArtifactCode;
 
 public class ArtifactConverter {
     public static void main(JsonArray artifactsCodes, Player targetPlayer) {
-        for (JsonElement artifact : artifactsCodes){
+        int counter = 0;
+        for (JsonElement artifact : artifactsCodes) {
             int artifactCode = getArtifactCode(artifact.getAsJsonObject().get("setKey").getAsString());
-            switch (artifact.getAsJsonObject().get("slotKey").getAsString()){
+            switch (artifact.getAsJsonObject().get("slotKey").getAsString()) {
                 case "flower" -> artifactCode += 44;
                 case "plume" -> artifactCode += 24;
                 case "sands" -> artifactCode += 54;
                 case "circlet" -> artifactCode += 34;
                 case "goblet" -> artifactCode += 14;
             }
-            switch (artifact.getAsJsonObject().get("rarity").getAsInt()){
+            switch (artifact.getAsJsonObject().get("rarity").getAsInt()) {
                 case 5 -> artifactCode += 500;
                 case 4 -> artifactCode += 400;
                 case 3 -> artifactCode += 300;
@@ -31,7 +32,7 @@ public class ArtifactConverter {
             }
 
             String mainStat = null;
-            switch (artifact.getAsJsonObject().get("mainStatKey").getAsString()){
+            switch (artifact.getAsJsonObject().get("mainStatKey").getAsString()) {
                 case "hp" -> mainStat = "hp";
                 case "atk" -> mainStat = "atk";
                 case "def" -> mainStat = "def";
@@ -84,6 +85,17 @@ public class ArtifactConverter {
             args.addAll(List.of(subStatsString.split(" ")));
             args.add(String.valueOf(level));
 
+            if (GenshinImporter.getPluginConfig().rateLimit) {
+                counter++;
+                if (counter == GenshinImporter.getPluginConfig().rateLimitItems) {
+                    try {
+                        Thread.sleep(GenshinImporter.getPluginConfig().rateLimitTime);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    counter = 0;
+                }
+            }
             ModifiedSnooGive meSnoo = new ModifiedSnooGive();
             GameItem newArtifact =  meSnoo.execute(null, targetPlayer, args);
             if(GenshinImporter.getInstance().getConfiguration().equipArtifact && !artifact.getAsJsonObject().get("location").getAsString().equals("")) {

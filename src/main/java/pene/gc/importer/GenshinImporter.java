@@ -96,5 +96,9 @@ public final class GenshinImporter extends Plugin {
     public PluginConfig getConfiguration() {
         return configuration;
     }
+    // Github copilot automatically uses this even though it didn't exist, so I made it
+    public static PluginConfig getPluginConfig() {
+        return configuration;
+    }
 }
 

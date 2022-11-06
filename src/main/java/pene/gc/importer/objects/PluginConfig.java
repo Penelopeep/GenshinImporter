@@ -16,7 +16,9 @@ public final class PluginConfig {
     public List<Integer> CharacterRarity = List.of(4,5);
     public boolean Materials = false;
     public int MaterialLimit = 0;
-
+    public boolean rateLimit = false;
+    public int rateLimitItems = 0;
+    public int rateLimitTime = 0;
 
 
 }
