@@ -39,8 +39,8 @@ public final class Datareader {
 
         return 0;
     }
-    public static void artifacts(Player targetPlayer, String filemane){
-        String filepath = String.format("%s/GenshinImporter/Data/%s.json",Grasscutter.getConfig().folderStructure.plugins, filemane);
+    public static void artifacts(Player targetPlayer, String filename) {
+        String filepath = String.format("%s/GenshinImporter/Data/%s.json",Grasscutter.getConfig().folderStructure.plugins, filename);
         File file1 = new File(filepath);
             try (
                 InputStream inputStream = new DataInputStream(new FileInputStream(file1));
@@ -56,6 +56,26 @@ public final class Datareader {
                 CommandHandler.sendMessage(targetPlayer, "File not found: " + filepath);
             } catch (IOException e) {
                  e.printStackTrace();
+        }
+    }
+    //How the fuck am I supposed to get characters from artifacts?????
+    public static void characters(Player targetPlayer, String filename) {
+        String filepath = String.format("%s/GenshinImporter/Data/%s.json", Grasscutter.getConfig().folderStructure.plugins, filename);
+        File file1 = new File(filepath);
+        try (
+                InputStream inputStream = new DataInputStream(new FileInputStream(file1));
+                InputStreamReader streamReader = new InputStreamReader(Objects.requireNonNull(inputStream), StandardCharsets.UTF_8);
+                BufferedReader reader = new BufferedReader(streamReader)) {
+            JsonArray artifactCodes = new JsonParser().parse(reader).getAsJsonObject().get("artifacts").getAsJsonArray();
+            CharacterConverter.main(artifactCodes, targetPlayer);
+            reader.close();
+            streamReader.close();
+            inputStream.close();
+        } catch (FileNotFoundException e) {
+            Grasscutter.getLogger().error("File not found: " + filepath);
+            CommandHandler.sendMessage(targetPlayer, "File not found: " + filepath);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

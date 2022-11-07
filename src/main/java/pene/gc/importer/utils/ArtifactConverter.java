@@ -13,7 +13,8 @@ import static pene.gc.importer.utils.Datareader.getArtifactCode;
 
 public class ArtifactConverter {
     public static void main(JsonArray artifactsCodes, Player targetPlayer) {
-        int counter = 0;
+        int rateLimitCounter = 0;
+        int artifactLimitCounter = 0;
         for (JsonElement artifact : artifactsCodes) {
             int artifactCode = getArtifactCode(artifact.getAsJsonObject().get("setKey").getAsString());
             switch (artifact.getAsJsonObject().get("slotKey").getAsString()) {
@@ -23,7 +24,14 @@ public class ArtifactConverter {
                 case "circlet" -> artifactCode += 34;
                 case "goblet" -> artifactCode += 14;
             }
-            switch (artifact.getAsJsonObject().get("rarity").getAsInt()) {
+            if (GenshinImporter.getPluginConfig().ArtifactLimit != 0 && artifactLimitCounter == GenshinImporter.getPluginConfig().ArtifactLimit) {
+                break;
+            }
+            int rarity = artifact.getAsJsonObject().get("rarity").getAsInt();
+            if (!GenshinImporter.getPluginConfig().ArtifactRarity.contains(rarity)) {
+                continue;
+            }
+            switch (rarity) {
                 case 5 -> artifactCode += 500;
                 case 4 -> artifactCode += 400;
                 case 3 -> artifactCode += 300;
@@ -86,14 +94,14 @@ public class ArtifactConverter {
             args.add(String.valueOf(level));
 
             if (GenshinImporter.getPluginConfig().rateLimit) {
-                counter++;
-                if (counter == GenshinImporter.getPluginConfig().rateLimitItems) {
+                rateLimitCounter++;
+                if (rateLimitCounter == GenshinImporter.getPluginConfig().rateLimitItems) {
                     try {
                         Thread.sleep(GenshinImporter.getPluginConfig().rateLimitTime* 1000L);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    counter = 0;
+                    rateLimitCounter = 0;
                 }
             }
             ModifiedSnooGive meSnoo = new ModifiedSnooGive();
@@ -104,6 +112,7 @@ public class ArtifactConverter {
                 targetPlayer.getInventory().getAvatarStorage().getAvatarById(avatarId).equipItem(newArtifact, true);
             }
             args.clear();
+            artifactLimitCounter++;
         }
     }
 }

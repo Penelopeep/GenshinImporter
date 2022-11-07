@@ -94,12 +94,6 @@ public final class GenshinImporter extends Plugin {
     }
     // Github copilot automatically uses this even though it didn't exist, so I made it
     public static PluginConfig getPluginConfig() {
-        try {
-            configuration = new Gson().fromJson(new FileReader(configFile), pene.gc.importer.objects.PluginConfig.class);
-        }
-        catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
         return configuration;
     }
 }

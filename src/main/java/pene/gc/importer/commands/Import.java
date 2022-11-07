@@ -47,6 +47,17 @@ public final class Import implements CommandHandler {
                 CommandHandler.sendMessage(targetPlayer,"Importing "+filename);
             }
         }
+        //Get character first, before artifacts because if equip is set to true, it will equip artifacts
+        if (GenshinImporter.getPluginConfig().Characters){
+            Datareader.characters(targetPlayer,filename);
+        } else {
+            if (sender==null){
+                Grasscutter.getLogger().info("Characters import disabled");
+            } else {
+                CommandHandler.sendMessage(targetPlayer,"Characters import disabled");
+            }
+        }
+
         if(GenshinImporter.getPluginConfig().Artifacts){
             Datareader.artifacts(targetPlayer,filename);
         } else {
@@ -57,9 +68,6 @@ public final class Import implements CommandHandler {
             }
         }
         //Maybe someday I'll add more stuff
-        //if (GenshinImporter.getInstance().getConfiguration().Characters){
-        //    Datareader.characters(targetPlayer,filename);
-        //}
         //if (GenshinImporter.getInstance().getConfiguration().Materials){
         //    Datareader.materials(targetPlayer,filename);
         //}
