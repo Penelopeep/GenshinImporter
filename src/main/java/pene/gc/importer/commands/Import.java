@@ -47,7 +47,7 @@ public final class Import implements CommandHandler {
                 CommandHandler.sendMessage(targetPlayer,"Importing "+filename);
             }
         }
-        if(GenshinImporter.getInstance().getConfiguration().Artifacts){
+        if(GenshinImporter.getPluginConfig().Artifacts){
             Datareader.artifacts(targetPlayer,filename);
         } else {
             if (sender==null){

@@ -11,5 +11,8 @@
   "CharacterLimit" : 0,
   "CharacterRarity" : [4,5],
   "Materials" : false,
-  "MaterialLimit" : 0
+  "MaterialLimit" : 0,
+  "rateLimit" : false,
+  "rateLimitTime" : 0,
+  "rateLimitItems" : 0
 }

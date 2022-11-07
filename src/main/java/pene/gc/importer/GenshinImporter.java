@@ -19,6 +19,7 @@ public final class GenshinImporter extends Plugin {
     public static GenshinImporter getInstance() {
         return instance;
     }
+    private static File configFile;
 
     public void reloadConfig(){
         try {
@@ -38,7 +39,7 @@ public final class GenshinImporter extends Plugin {
         instance = this;
 
         // Get the configuration file.
-        File config = new File(this.getDataFolder(), "Settings.json");
+        configFile = new File(this.getDataFolder(), "Settings.json");
 
         // Get the extra data folder.
         File dataFolder = new File(this.getDataFolder(), "Data");
@@ -49,8 +50,8 @@ public final class GenshinImporter extends Plugin {
         }
         // Load the configuration.
         try {
-            if(!config.exists()) {
-                try (FileWriter writer = new FileWriter(config)) {
+            if(!configFile.exists()) {
+                try (FileWriter writer = new FileWriter(configFile)) {
                     InputStream configStream = this.getResource("config.json");
                     if(configStream == null) {
                         this.getLogger().error("Failed to save default config file.");
@@ -65,8 +66,6 @@ public final class GenshinImporter extends Plugin {
             }
 
 
-            // Put the configuration into an instance of the config class.
-            configuration = new Gson().fromJson(new FileReader(config), pene.gc.importer.objects.PluginConfig.class);
         } catch (IOException exception) {
             this.getLogger().error("Failed to create config file.", exception);
         }
@@ -93,7 +92,14 @@ public final class GenshinImporter extends Plugin {
         // Log a plugin status message.
         this.getLogger().info("The GenshinImporter plugin has been disabled.");
     }
-    public PluginConfig getConfiguration() {
+    // Github copilot automatically uses this even though it didn't exist, so I made it
+    public static PluginConfig getPluginConfig() {
+        try {
+            configuration = new Gson().fromJson(new FileReader(configFile), pene.gc.importer.objects.PluginConfig.class);
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         return configuration;
     }
 }
