@@ -44,4 +44,4 @@ This plugin is built for InventoryKamera data, but if you have other data source
     - Ask me on discord **<a href="https://discord.com/users/276265598508466176">Penelopeep#7963</a>**
 ### Version
 This plugin is WIP, I have plans to add more features.
-Plugin is built for Grasscutter `1.4.1-dev`. I don't know if it will work on other versions, but it should.
+Plugin is built for Grasscutter `1.7.2`. I don't know if it will work on other versions, but it should.

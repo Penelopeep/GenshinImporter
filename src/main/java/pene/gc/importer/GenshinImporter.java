@@ -69,8 +69,8 @@ public final class GenshinImporter extends Plugin {
         } catch (IOException exception) {
             this.getLogger().error("Failed to create config file.", exception);
         }
-    // Log a plugin status message.
-        this.getLogger().info("The GenshinImporter plugin has been loaded.");
+        // Log a plugin status message.
+        // this.getLogger().info("The GenshinImporter plugin has been loaded.");
     }
 
 
