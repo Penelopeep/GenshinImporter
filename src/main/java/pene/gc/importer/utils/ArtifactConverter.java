@@ -90,7 +90,9 @@ public class ArtifactConverter {
             List<String> args = new ArrayList<>();
             args.add(String.valueOf(artifactCode));
             args.add(mainStat);
-            args.addAll(List.of(subStatsString.split(" ")));
+            if (subStatsString != null) {
+                args.addAll(List.of(subStatsString.split(" ")));
+            }
             args.add(String.valueOf(level));
 
             if (GenshinImporter.getPluginConfig().rateLimit) {
