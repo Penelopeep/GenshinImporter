@@ -23,7 +23,10 @@ public final class Datareader {
         catch (IOException e) {
             e.printStackTrace();
         }
-
+        catch (NullPointerException e) {
+            Grasscutter.getLogger().warn("Possibly unknown avatar: " + name);
+            e.printStackTrace();
+        }
         return 0;
     }
     public static int getArtifactCode(String setKey) {
@@ -34,6 +37,10 @@ public final class Datareader {
             return new JsonParser().parse(reader).getAsJsonObject().get(setKey).getAsInt();
         }
         catch (IOException e) {
+            e.printStackTrace();
+        }
+        catch (NullPointerException e) {
+            Grasscutter.getLogger().warn("Possibly unknown artifact set: " + setKey);
             e.printStackTrace();
         }
 
