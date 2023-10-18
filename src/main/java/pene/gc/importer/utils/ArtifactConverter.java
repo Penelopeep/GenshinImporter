@@ -108,7 +108,7 @@ public class ArtifactConverter {
             }
             ModifiedSnooGive meSnoo = new ModifiedSnooGive();
             GameItem newArtifact =  meSnoo.execute(null, targetPlayer, args);
-            if(GenshinImporter.getPluginConfig().equipArtifact && !artifact.getAsJsonObject().get("location").getAsString().equals("")) {
+            if(newArtifact != null && GenshinImporter.getPluginConfig().equipArtifact && !artifact.getAsJsonObject().get("location").getAsString().equals("")) {
                 String avatarName = artifact.getAsJsonObject().get("location").getAsString();
                 int avatarId = Datareader.getAvatarId(avatarName);
                 targetPlayer.getInventory().getAvatarStorage().getAvatarById(avatarId).equipItem(newArtifact, true);
