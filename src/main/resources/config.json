@@ -7,7 +7,7 @@
   "ArtifactLimit" : 0,
   "ArtifactRarity" : [1,2,3,4,5],
   "equipArtifact" : true,
-  "Characters" : false,
+  "Characters" : true,
   "CharacterLimit" : 0,
   "CharacterRarity" : [4,5],
   "Materials" : false,
