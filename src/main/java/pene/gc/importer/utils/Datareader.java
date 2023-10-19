@@ -23,7 +23,10 @@ public final class Datareader {
         catch (IOException e) {
             e.printStackTrace();
         }
-
+        catch (NullPointerException e) {
+            Grasscutter.getLogger().warn("Possibly unknown avatar: " + name);
+            e.printStackTrace();
+        }
         return 0;
     }
     public static int getArtifactCode(String setKey) {
@@ -34,6 +37,10 @@ public final class Datareader {
             return new JsonParser().parse(reader).getAsJsonObject().get(setKey).getAsInt();
         }
         catch (IOException e) {
+            e.printStackTrace();
+        }
+        catch (NullPointerException e) {
+            Grasscutter.getLogger().warn("Possibly unknown artifact set: " + setKey);
             e.printStackTrace();
         }
 
@@ -59,6 +66,7 @@ public final class Datareader {
         }
     }
     //How the fuck am I supposed to get characters from artifacts?????
+    // Answer - You don't. There's an option in Inventory Kamera to parse characters.
     public static void characters(Player targetPlayer, String filename) {
         String filepath = String.format("%s/GenshinImporter/Data/%s.json", Grasscutter.getConfig().folderStructure.plugins, filename);
         File file1 = new File(filepath);
@@ -66,8 +74,8 @@ public final class Datareader {
                 InputStream inputStream = new DataInputStream(new FileInputStream(file1));
                 InputStreamReader streamReader = new InputStreamReader(Objects.requireNonNull(inputStream), StandardCharsets.UTF_8);
                 BufferedReader reader = new BufferedReader(streamReader)) {
-            JsonArray artifactCodes = new JsonParser().parse(reader).getAsJsonObject().get("artifacts").getAsJsonArray();
-            CharacterConverter.main(artifactCodes, targetPlayer);
+            JsonArray charactersArray = new JsonParser().parse(reader).getAsJsonObject().get("characters").getAsJsonArray();
+            CharacterConverter.main(charactersArray, targetPlayer);
             reader.close();
             streamReader.close();
             inputStream.close();

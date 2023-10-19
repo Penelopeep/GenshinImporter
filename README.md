@@ -13,10 +13,10 @@ Allows for quickly importing hundreds of your artifacts from official server.</c
 
 ## Settings
 In `Grasscutter_Folder/Plugins/GenshinImporter/Settings.json` you can change some settings:
-- `Artifacts/Weapons/Characters/Materials` - if you want to import artifacts/weapons/characters/materials set to true, otherwise false (currently only artifacts are supported)
+- `Artifacts/Weapons/Characters/Materials` - if you want to import artifacts/weapons/characters/materials set to true, otherwise false (currently only materials are NOT supported)
 - `(Artifacts/Weapons/Characters/Materials)Limit` - limit of items to import (if you have 1000 artifacts and you set limit to 100, only 100 artifacts will be imported) (currently not working)
 - `(Artifacts/Weapons/Characters)Rarity` - list of rarities to import (if you have 5 star artifact and you set rarity to 4, it won't be imported) (currently not working)
-- `(artifacts/weapons)Equip` - plugin will try to equip artifacts/weapons on character (currently only artifacts). If anything goes wrong, disable it.
+- `(artifacts/weapons)Equip` - plugin will try to equip artifacts/weapons on character. If anything goes wrong, disable it.
 - `rateLimit` - true/false, if true, plugin will wait each batch of items to be imported before importing next batch. If false, plugin will import all items at once.
 - `rateLimitTime` - time in seconds to wait before importing next batch of items. <br>
   **Note: Don't set rateLimitTime to low value, otherwise you will get kicked from server. I recommend setting it to 10 seconds.**
@@ -44,4 +44,4 @@ This plugin is built for InventoryKamera data, but if you have other data source
     - Ask me on discord **<a href="https://discord.com/users/276265598508466176">Penelopeep#7963</a>**
 ### Version
 This plugin is WIP, I have plans to add more features.
-Plugin is built for Grasscutter `1.4.1-dev`. I don't know if it will work on other versions, but it should.
+Plugin is built for Grasscutter `1.7.2`. I don't know if it will work on other versions, but it should.

@@ -67,12 +67,19 @@ public final class Import implements CommandHandler {
                 CommandHandler.sendMessage(targetPlayer,"Artifacts import disabled");
             }
         }
+
+        if (GenshinImporter.getPluginConfig().Weapons) {
+            Datareader.weapons(targetPlayer, filename);
+        } else {
+            if (sender == null) {
+                Grasscutter.getLogger().info("Weapons import disabled");
+            } else {
+                CommandHandler.sendMessage(targetPlayer, "Weapons import disabled");
+            }
+        }
         //Maybe someday I'll add more stuff
         //if (GenshinImporter.getInstance().getConfiguration().Materials){
         //    Datareader.materials(targetPlayer,filename);
-        //}
-        //if (GenshinImporter.getInstance().getConfiguration().Weapons){
-        //    Datareader.weapons(targetPlayer,filename);
         //}
     }
 }

@@ -90,7 +90,9 @@ public class ArtifactConverter {
             List<String> args = new ArrayList<>();
             args.add(String.valueOf(artifactCode));
             args.add(mainStat);
-            args.addAll(List.of(subStatsString.split(" ")));
+            if (subStatsString != null) {
+                args.addAll(List.of(subStatsString.split(" ")));
+            }
             args.add(String.valueOf(level));
 
             if (GenshinImporter.getPluginConfig().rateLimit) {
@@ -106,7 +108,7 @@ public class ArtifactConverter {
             }
             ModifiedSnooGive meSnoo = new ModifiedSnooGive();
             GameItem newArtifact =  meSnoo.execute(null, targetPlayer, args);
-            if(GenshinImporter.getPluginConfig().equipArtifact && !artifact.getAsJsonObject().get("location").getAsString().equals("")) {
+            if(newArtifact != null && GenshinImporter.getPluginConfig().equipArtifact && !artifact.getAsJsonObject().get("location").getAsString().equals("")) {
                 String avatarName = artifact.getAsJsonObject().get("location").getAsString();
                 int avatarId = Datareader.getAvatarId(avatarName);
                 targetPlayer.getInventory().getAvatarStorage().getAvatarById(avatarId).equipItem(newArtifact, true);
