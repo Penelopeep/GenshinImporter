@@ -65,6 +65,25 @@ public final class Datareader {
                  e.printStackTrace();
         }
     }
+    public static void weapons(Player targetPlayer, String filename) {
+        String filepath = String.format("%s/GenshinImporter/Data/%s.json",Grasscutter.getConfig().folderStructure.plugins, filename);
+        File file1 = new File(filepath);
+        try (
+                InputStream inputStream = new DataInputStream(new FileInputStream(file1));
+                InputStreamReader streamReader = new InputStreamReader(Objects.requireNonNull(inputStream), StandardCharsets.UTF_8);
+                BufferedReader reader = new BufferedReader(streamReader)) {
+            JsonArray weaponsArray = new JsonParser().parse(reader).getAsJsonObject().get("weapons").getAsJsonArray();
+            WeaponConverter.main(weaponsArray, targetPlayer);
+            reader.close();
+            streamReader.close();
+            inputStream.close();
+        } catch (FileNotFoundException e) {
+            Grasscutter.getLogger().error("File not found: " + filepath);
+            CommandHandler.sendMessage(targetPlayer, "File not found: " + filepath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     //How the fuck am I supposed to get characters from artifacts?????
     // Answer - You don't. There's an option in Inventory Kamera to parse characters.
     public static void characters(Player targetPlayer, String filename) {
